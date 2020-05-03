@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 6,
     color: '#000',
-    fontFamily: 'animal-crossing-bold'
+    fontFamily: 'animal-crossing'
   },
   bug: {
     width: 80,

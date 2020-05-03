@@ -7,8 +7,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import useLinking from './navigation/useLinking';
+
+// Screens
 import HomeScreen from './screens/HomeScreen';
 import FishScreen from './screens/FishScreen';
+import BugsScreen from './screens/BugsScreen';
+import VillagersScreen from './screens/VillagersScreen';
+import MusicScreen from './screens/MusicScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,8 +36,7 @@ export default function App(props) {
         await Font.loadAsync({
           ...FontAwesome5.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-          'animal-crossing': require('./assets/fonts/AnimalCrossing.ttf'),
-          'animal-crossing-bold': require('./assets/fonts/AnimalCrossingBold.ttf')
+          'animal-crossing': require('./assets/fonts/AnimalCrossing.ttf')
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -56,6 +60,9 @@ export default function App(props) {
           <Stack.Navigator>
             <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Fish" component={FishScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Bugs" component={BugsScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Villagers" component={VillagersScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Music" component={MusicScreen} options={getHeaderStyles()} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
@@ -80,7 +87,11 @@ const getHeaderStyles = () => {
       color: '#909090',
       fontWeight: 'bold',
       fontSize: 35,
-      fontFamily: 'animal-crossing-bold'
-    }
+      fontFamily: 'animal-crossing'
+    },
+    headerLeftContainerStyle: {
+      color: '#909090'
+    },
+    navigationOptions: {header: ({ goBack }) => ({ left: <Left onPress={goBack} />})}
   }
 }

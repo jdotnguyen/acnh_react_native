@@ -16,35 +16,35 @@ export default class HomeScreen extends Component {
             icon: 'fish',
             color: '#2d3436',
             backgroundColor: '#74b9ff',
-            screenDestination: 'FishScreen'
+            screenDestination: 'Fish'
           },
           {
             title: 'Bugs',
             icon: 'bug',
             color: '#00b894',
             backgroundColor: '#ffeaa7',
-            screenDestination: 'BugsScreen'
+            screenDestination: 'Bugs'
           },
           {
             title: 'Fossils',
             icon: 'bone',
             color: '#ffffff',
             backgroundColor: '#fab1a0',
-            screenDestination: 'BugsScreen'
+            screenDestination: 'Fossils'
           },
           {
             title: 'Villagers',
             icon: 'user-friends',
             color: '#e17055',
             backgroundColor: '#81ecec',
-            screenDestination: 'VillagersScreen'
+            screenDestination: 'Villagers'
           },
           {
             title: 'Music',
             icon: 'music',
             color: '#e84393',
             backgroundColor: '#dddddd',
-            screenDestination: 'MusicScreen'
+            screenDestination: 'Music'
           }
         ]
     }
@@ -53,7 +53,7 @@ export default class HomeScreen extends Component {
     this.homeItem = ({ item }) => (
         <View style={{ width: '33%', alignItems: 'center' }}>
             <View style={this.getHomeIconstyles(item)}>
-                <TouchableOpacity style={styles.appIcon}>
+                <TouchableOpacity style={styles.appIcon} onPress={() => {{this.props.navigation.navigate(item.screenDestination)}}}>
                     <FontAwesome5
                       name={item.icon}
                       size={50}
@@ -81,7 +81,8 @@ export default class HomeScreen extends Component {
           backgroundColor: item.backgroundColor,
           marginVertical: 20,
           marginHorizontal: 0,
-          borderRadius: 45
+          borderRadius: 45,
+          width: '90%'
       }
   }
 
@@ -108,16 +109,16 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     height: Dimensions.get('window').height,
     alignItems: 'center',
-    paddingLeft: 1
+    paddingLeft: 5
   },
   appTitle: {
     marginTop: -10,
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'animal-crossing-bold'
+    fontFamily: 'animal-crossing'
   },
   appIcon: {
     alignItems: 'center',
-    padding: 30,
+    padding: 30
   }
 });
