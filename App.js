@@ -11,6 +11,7 @@ import useLinking from './navigation/useLinking';
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import FishScreen from './screens/FishScreen';
+import FishDetailsScreen from './screens/FishDetailsScreen';
 import BugsScreen from './screens/BugsScreen';
 import VillagersScreen from './screens/VillagersScreen';
 import MusicScreen from './screens/MusicScreen';
@@ -60,6 +61,7 @@ export default function App(props) {
           <Stack.Navigator>
             <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Fish" component={FishScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Fish Details" component={FishDetailsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Bugs" component={BugsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Villagers" component={VillagersScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Music" component={MusicScreen} options={getHeaderStyles()} />

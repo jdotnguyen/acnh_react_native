@@ -35,8 +35,15 @@ export default class HomeScreen extends Component {
           {
             title: 'Villagers',
             icon: 'user-friends',
-            color: '#e17055',
-            backgroundColor: '#81ecec',
+            color: '#ffeaa7',
+            backgroundColor: '#a29bfe',
+            screenDestination: 'Villagers'
+          },
+          {
+            title: 'Sow Jones',
+            icon: 'dollar-sign',
+            color: '#55efc4',
+            backgroundColor: '#636e72',
             screenDestination: 'Villagers'
           },
           {
@@ -84,11 +91,6 @@ export default class HomeScreen extends Component {
           borderRadius: 45,
           width: '90%'
       }
-  }
-
-  // Open app
-  openApp(app) {
-    this.props.navigation.push('FishScreen');
   }
   
   render() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, ScrollView, Image, ActivityIndicator } from 'react-native';
 import Constants from "expo-constants";
-import { fetchFish, fetchFishImage } from '../shared/api/get';
+import { fetchFish, fetchFishIcon, fetchFishImage } from '../shared/api/get';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class FishScreen extends Component {
@@ -18,14 +18,10 @@ export default class FishScreen extends Component {
     // Item component
     this.fishItem = ({ fish }) => (
       <View style={styles.item}>
-        <TouchableOpacity style={styles.fishbutton} onPress={() => this.onPressFish(fish)}>
+        <TouchableOpacity style={styles.fishbutton} onPress={() => this.props.navigation.navigate('Fish Details', {details: fish})}>
           <Text style={styles.title}>{fish.name['name-en']}</Text>
-          <Image style={styles.fish} source={{ uri: fish.img }} />
+          <Image style={styles.fish} source={{ uri: fish.icon }} />
         </TouchableOpacity>
-        { fish.touched && 
-        <TouchableOpacity style={styles.fishInfoOverlay}>
-          <Text>Test</Text>
-        </TouchableOpacity>}
       </View>
     );
   }
@@ -50,10 +46,11 @@ export default class FishScreen extends Component {
 
           // // Get image URL
           fishResponse.forEach((fish, index) => {
+            fish[1]['icon'] = fetchFishIcon(fish[1].id);
             fish[1]['img'] = fetchFishImage(fish[1].id);
             fish[1]['touched'] = false;
           });
-          console.log(fishResponse);
+          
           this.setState({ fish: fishResponse, isLoading: false });
         });
     }
