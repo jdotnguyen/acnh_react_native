@@ -1,49 +1,22 @@
 import fetch from 'cross-fetch'
 
-// Get fish list
-export function fetchFish() {
-    return fetch('http://acnhapi.com/fish/')
+// Get list with type param
+export function fetchList(pageType) {
+    const type = String(pageType).toLowerCase();
+    return fetch('http://acnhapi.com/' + type + '/')
         .then(response => response.json())
         .then(response => {return response})
         .catch(error => console.warn(error));
 }
 
-// Get fish icon
-export function fetchFishIcon(fishId) {
-    return 'http://acnhapi.com/icons/fish/' + fishId;
+// Get icon with type param
+export function fetchIcon(pageType, id) {
+    const type = String(pageType).toLowerCase();
+    return 'http://acnhapi.com/icons/' + type + '/' + id;
 }
 
-// Get fish image
-export function fetchFishImage(fishId) {
-    return 'http://acnhapi.com/images/fish/' + fishId;
-}
-
-// Get bug list
-export function fetchBugs() {
-    return fetch('http://acnhapi.com/bugs/')
-        .then(response => response.json())
-        .then(response => {
-            return response
-        })
-        .catch(error => console.warn(error));
-}
-
-// Get bug icon
-export function fetchBugImage(bugId) {
-    return 'http://acnhapi.com/icons/bugs/' + bugId;
-}
-
-// Get villager list
-export function fetchVillagers() {
-    return fetch('http://acnhapi.com/villagers/')
-        .then(response => response.json())
-        .then(response => {
-            return response
-        })
-        .catch(error => console.warn(error));
-}
-
-// Get villager icon
-export function fetchVillagerImage(villagerId) {
-    return 'http://acnhapi.com/icons/villagers/' + villagerId;
+// Get icon with type param
+export function fetchImage(pageType, id) {
+    const type = String(pageType).toLowerCase();
+    return 'http://acnhapi.com/images/' + type + '/' + id;
 }

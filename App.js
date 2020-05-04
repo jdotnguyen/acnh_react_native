@@ -10,10 +10,8 @@ import useLinking from './navigation/useLinking';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
-import FishScreen from './screens/FishScreen';
-import FishDetailsScreen from './screens/FishDetailsScreen';
-import BugsScreen from './screens/BugsScreen';
-import VillagersScreen from './screens/VillagersScreen';
+import ListScreen from './screens/ListScreen';
+import ListDetailsScreen from './screens/ListDetailsScreen';
 import MusicScreen from './screens/MusicScreen';
 
 const Stack = createStackNavigator();
@@ -59,11 +57,13 @@ export default function App(props) {
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Stack.Navigator>
-            <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Fish" component={FishScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Fish Details" component={FishDetailsScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Bugs" component={BugsScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Villagers" component={VillagersScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles(0)} />
+            <Stack.Screen name="Fish" component={ListScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Fish Details" component={ListDetailsScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Bugs" component={ListScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Bugs Details" component={ListDetailsScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Villagers" component={ListScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Villagers Details" component={ListDetailsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Music" component={MusicScreen} options={getHeaderStyles()} />
           </Stack.Navigator>
         </NavigationContainer>
@@ -79,11 +79,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const getHeaderStyles = () => {
+const getHeaderStyles = (opacity) => {
   return {
     headerStyle: {
       backgroundColor: '#fff',
-      height: 100
+      height: 120,
+      shadowOpacity: opacity,
+      shadowRadius: 4,
+      shadowColor: '#404040',
+      shadowOffset: { height: 0, width: 0 },
     },
     headerTitleStyle: {
       color: '#909090',

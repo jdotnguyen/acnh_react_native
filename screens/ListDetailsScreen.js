@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet, SafeAreaView, Text, Image, Dimensions } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 
-export default class FishDetailsScreen extends Component {
+export default class ListDetailsScreen extends Component {
   _isMounted = false;
 
   constructor(props) {
@@ -18,19 +17,19 @@ export default class FishDetailsScreen extends Component {
   }
   
   render() {
-    const fish = this.props.route.params.details;
+    const data = this.props.route.params.details;
     return (
         <SafeAreaView>
             <ScrollView style={styles.content}>
                 <View style={styles.innerContent}>
                     <View style={styles.headerContainer}>
-                        <Text style={styles.header}>{fish.name['name-en']}</Text>
-                        <Image style={styles.fishImage} source={{ uri: fish.icon }} />
+                        <Text style={styles.header}>{data.name['name-en']}</Text>
+                        <Image style={styles.image} source={{ uri: data.icon }} />
                     </View>
                     <View style={styles.detailsInfoContainer}>
                         <Text style={styles.priceHeader}>Prices:</Text>
-                        <Text style={styles.price}>{fish.price} Bells</Text>
-                        <Text style={styles.price}>{fish['price-cj']} Bells (CJ)</Text>
+                        <Text style={styles.price}>{data.price} Bells</Text>
+                        <Text style={styles.price}>{data['price-cj']} Bells (CJ)</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
       fontSize: 25,
       fontFamily: 'animal-crossing',
   },
-  fishImage: {
+  image: {
     width: 120,
     height: 120
   },

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, Image, ActivityIndicator } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView, Image, ActivityIndicator } from 'react-native';
 import Constants from "expo-constants";
 import { fetchBugs, fetchBugImage } from '../shared/api/get';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+// Common styling
+import { styles } from '../shared/constants/styling';
 
 export default class BugsScreen extends Component {
   _isMounted = false;
@@ -18,14 +21,10 @@ export default class BugsScreen extends Component {
     // Item component
     this.bugItem = ({ bug }) => (
       <View style={styles.item}>
-        <TouchableOpacity style={styles.bugbutton} onPress={() => this.onPressBug(bug)}>
+        <TouchableOpacity style={styles.button} onPress={() => this.onPressBug(bug)}>
           <Text style={styles.title}>{bug.name['name-en']}</Text>
-          <Image style={styles.bug} source={{ uri: bug.img }} />
+          <Image style={styles.image} source={{ uri: bug.img }} />
         </TouchableOpacity>
-        { bug.touched && 
-        <TouchableOpacity style={styles.bugInfoOverlay}>
-          <Text>Test</Text>
-        </TouchableOpacity>}
       </View>
     );
   }
@@ -58,17 +57,6 @@ export default class BugsScreen extends Component {
         });
     }
   }
-
-  // On press bug handler
-  onPressBug = (bug) => {
-    bug.touched = !bug.touched;
-    let tempBugArray = this.state.bug.slice();
-    tempBugArray.filter((bug, index) => {
-      index != bug.id
-    });
-    tempBugArray[(bug.id - 1)] = bug;
-    this.setState({ bugs: tempBugArray });
-  }
   
   render() {
     return (
@@ -83,45 +71,3 @@ export default class BugsScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight
-  },
-  content: {
-    backgroundColor: '#ffeaa7',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  item: {
-    backgroundColor: "#fff",
-    marginVertical: 20,
-    marginHorizontal: 20,
-    borderRadius: 50,
-    width: '40%'
-  },
-  bugbutton: {
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    textTransform: 'capitalize',
-    marginBottom: 15,
-    position: 'relative',
-    top: 6,
-    color: '#000',
-    fontFamily: 'animal-crossing'
-  },
-  bug: {
-    width: 80,
-    height: 80
-  },
-  bugInfoOverlay: {
-    width: '100%',
-    height: '90%',
-    backgroundColor: '#ffffff'
-  }
-});

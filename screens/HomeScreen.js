@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, Dimensions, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
+// Get enum background colours
+import { PageColours } from '../shared/enum/main';
+
 export default class HomeScreen extends Component {
   _isMounted = false;
 
@@ -15,42 +18,42 @@ export default class HomeScreen extends Component {
             title: 'Fish',
             icon: 'fish',
             color: '#2d3436',
-            backgroundColor: '#74b9ff',
+            backgroundColor: PageColours.FISH_LIST,
             screenDestination: 'Fish'
           },
           {
             title: 'Bugs',
             icon: 'bug',
             color: '#00b894',
-            backgroundColor: '#ffeaa7',
+            backgroundColor: PageColours.BUGS_LIST,
             screenDestination: 'Bugs'
           },
           {
             title: 'Fossils',
             icon: 'bone',
             color: '#ffffff',
-            backgroundColor: '#fab1a0',
+            backgroundColor: PageColours.FOSSILS_LIST,
             screenDestination: 'Fossils'
           },
           {
             title: 'Villagers',
             icon: 'user-friends',
             color: '#ffeaa7',
-            backgroundColor: '#a29bfe',
+            backgroundColor: PageColours.VILLAGERS_LIST,
             screenDestination: 'Villagers'
           },
           {
             title: 'Sow Jones',
             icon: 'dollar-sign',
             color: '#55efc4',
-            backgroundColor: '#636e72',
+            backgroundColor: PageColours.SOW_JONES,
             screenDestination: 'Villagers'
           },
           {
             title: 'Music',
             icon: 'music',
             color: '#e84393',
-            backgroundColor: '#dddddd',
+            backgroundColor: PageColours.MUSIC_LIST,
             screenDestination: 'Music'
           }
         ]
@@ -60,7 +63,7 @@ export default class HomeScreen extends Component {
     this.homeItem = ({ item }) => (
         <View style={{ width: '33%', alignItems: 'center' }}>
             <View style={this.getHomeIconstyles(item)}>
-                <TouchableOpacity style={styles.appIcon} onPress={() => {{this.props.navigation.navigate(item.screenDestination)}}}>
+                <TouchableOpacity style={styles.appIcon} onPress={() => {{this.props.navigation.navigate(item.screenDestination, {type: item.title, background: item.backgroundColor})}}}>
                     <FontAwesome5
                       name={item.icon}
                       size={50}
