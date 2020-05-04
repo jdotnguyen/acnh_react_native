@@ -28,7 +28,7 @@ export default class ListScreen extends Component {
     // Item component
     this.dataItem = ({ data }) => (
       <View style={styles.item}>
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {details: data})}>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {details: data, background: this.background})}>
           <Text style={styles.title}>{data.name['name-en']}</Text>
           <Image style={styles.image} source={{ uri: data.icon }} />
         </TouchableOpacity>

@@ -6,6 +6,12 @@ export default class ListDetailsScreen extends Component {
 
   constructor(props) {
     super(props);
+
+    // Get data
+    this.data = this.props.route.params.details;
+
+    // Get background color
+    this.background = this.props.route.params.background;
   }
 
   componentDidMount() {
@@ -17,19 +23,18 @@ export default class ListDetailsScreen extends Component {
   }
   
   render() {
-    const data = this.props.route.params.details;
     return (
         <SafeAreaView>
-            <ScrollView style={styles.content}>
+            <ScrollView style={getContentBodyStyles(this.background)}>
                 <View style={styles.innerContent}>
                     <View style={styles.headerContainer}>
-                        <Text style={styles.header}>{data.name['name-en']}</Text>
-                        <Image style={styles.image} source={{ uri: data.icon }} />
+                        <Text style={styles.header}>{this.data.name['name-en']}</Text>
+                        <Image style={styles.image} source={{ uri: this.data.icon }} />
                     </View>
                     <View style={styles.detailsInfoContainer}>
                         <Text style={styles.priceHeader}>Prices:</Text>
-                        <Text style={styles.price}>{data.price} Bells</Text>
-                        <Text style={styles.price}>{data['price-cj']} Bells (CJ)</Text>
+                        <Text style={styles.price}>{this.data.price} Bells</Text>
+                        <Text style={styles.price}>{this.data['price-cj']} Bells (CJ)</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -38,17 +43,14 @@ export default class ListDetailsScreen extends Component {
   }
 }
 
+const getContentBodyStyles = (background) => {
+  return {
+    backgroundColor: background,
+    minHeight: Dimensions.get('window').height - 100
+  }
+}
+
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: '#fab1a0',
-    minHeight: Dimensions.get('window').height,
-  },
-  contentIcon: {
-    position: 'absolute',
-    left: 100,
-    top: 0,
-    opacity: 0.6
-  },
   innerContent: {
       backgroundColor: '#ffffff',
       padding: 50,
