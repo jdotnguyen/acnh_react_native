@@ -82,22 +82,23 @@ const styles = StyleSheet.create({
 const getHeaderStyles = () => {
   return {
     headerStyle: {
-      backgroundColor: '#fff',
-      height: 120,
-      shadowOpacity: 0,
-      shadowRadius: 4,
-      shadowColor: '#404040',
-      shadowOffset: { height: 0, width: 0 },
+        backgroundColor: '#fff',
+        height: 120,
+        shadowOpacity: 0,
+        shadowRadius: 4,
+        shadowColor: '#404040',
+        shadowOffset: { height: 0, width: 0 },
     },
     headerTitleStyle: {
-      color: '#909090',
-      fontWeight: 'bold',
-      fontSize: 35,
-      fontFamily: 'animal-crossing'
+        color: '#909090',
+        fontWeight: 'bold',
+        fontSize: 35,
+        fontFamily: 'animal-crossing'
     },
-    headerLeftContainerStyle: {
-      color: '#909090'
-    },
-    navigationOptions: {header: ({ goBack }) => ({ left: <Left onPress={goBack} />})}
+    headerBackTitle: 'Back',
+    headerBackTitleStyle: {
+        fontSize: 20,
+        fontFamily: 'animal-crossing'
+    }
   }
 }

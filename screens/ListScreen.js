@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, SafeAreaView, ScrollView, Image, ActivityIndicator, StyleSheet, TextInput, Dimensions, FlatList } from 'react-native';
-import Constants from "expo-constants";
+import { Text, View, Image, ActivityIndicator, StyleSheet, TextInput, Dimensions, FlatList } from 'react-native';
 import { fetchList, fetchIcon, fetchImage } from '../shared/api/get';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Get enum background colours
-import { PageColours } from '../shared/enum/main';
+import { AmericanPalette } from '../shared/enum/main';
 
 export default class ListScreen extends Component {
   _isMounted = false;
@@ -27,12 +26,18 @@ export default class ListScreen extends Component {
 
     // Item component
     this.dataItem = ({ data }) => (
-      <View style={styles.item}>
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {type: this.pageType, details: data, background: this.background})}>
-          <Text style={styles.title}>{data.name['name-en']}</Text>
-          <Image style={styles.image} source={{ uri: data.icon }} />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.item}>
+            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {type: this.pageType, details: data, background: this.background})}>
+                <View>
+                    <Text style={styles.title}>{data.name['name-en']}</Text>
+                    <Image style={styles.image} source={{ uri: data.icon }} />
+                </View>
+                <View style={styles.priceBody}>
+                    <View style={styles.price}><Text style={styles.priceText}>{data.price}</Text></View>
+                    <View style={styles.priceCj}><Text style={styles.priceText}>{data['price-cj']}</Text></View>
+                </View>
+            </TouchableOpacity>
+        </View>
     );
   }
 
@@ -84,7 +89,9 @@ export default class ListScreen extends Component {
     return (
         <View style={getContentBodyStyles(this.background)}>
             {this.state.isLoading && <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#cecece" />}
+            
             {!this.state.isLoading && <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterData(text)}></TextInput>}
+            {!this.state.isLoading && <View style={styles.legend}><View style={styles.legendPrice}><Text style={styles.priceText}>Regular Price</Text></View><View style={styles.legendPriceCj}><Text style={styles.priceText}>Special Price</Text></View></View>}
             <FlatList data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
         </View>
     );
@@ -95,15 +102,12 @@ const getContentBodyStyles = (background) => {
     return {
         backgroundColor: background,
         padding: 20,
+        paddingTop:0,
         minHeight: Dimensions.get('window').height - 100
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: Constants.statusBarHeight
-    },
     searchBar: {
         width: '100%',
         marginVertical: 20,
@@ -111,30 +115,79 @@ const styles = StyleSheet.create({
         fontSize: 16,
         borderRadius: 30,
         fontFamily: 'animal-crossing',
-        backgroundColor: '#ffffff'
+        backgroundColor: AmericanPalette.WHITE
+    },
+    legend: {
+        flexDirection: 'row',
+        paddingBottom: 20,
+        paddingLeft: 0,
+        paddingRight: 0
+    },
+    legendPrice: {
+        padding: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 20,
+        backgroundColor: AmericanPalette.DARK_GREEN
+    },
+    legendPriceCj: {
+        padding: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 20,
+        marginHorizontal: 20,
+        backgroundColor: AmericanPalette.DARK_RED
     },
     item: {
-        backgroundColor: "#fff",
-        marginVertical: 20,
+        backgroundColor: AmericanPalette.WHITE,
+        marginBottom: 20,
         borderRadius: 50,
         width: '100%'
     },
     button: {
-        alignItems: 'center',
-        padding: 20,
+        alignItems: 'flex-start',
+        padding: 10,
+        paddingLeft: 40,
+        paddingRight: 40,
+        flexDirection: 'row'
     },
     title: {
-        fontSize: 15,
-        fontWeight: 'bold',
+        fontSize: 18,
         textTransform: 'capitalize',
         marginBottom: 15,
         position: 'relative',
-        top: 6,
-        color: '#000',
+        top: 15,
         fontFamily: 'animal-crossing'
     },
     image: {
         width: 80,
-        height: 80
+        height: 80,
+    },
+    priceBody: {
+        position: 'absolute',
+        right: 40,
+        top: 25
+    },
+    price: {
+        padding: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 20,
+        backgroundColor: AmericanPalette.DARK_GREEN,
+        alignItems: 'center'
+    },
+    priceCj: {
+        marginTop: 30,
+        padding: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 20,
+        backgroundColor: AmericanPalette.DARK_RED,
+        alignItems: 'center'
+    },
+    priceText: {
+        fontFamily: 'animal-crossing',
+        fontSize: 14,
+        color: '#ffffff'
     }
 });
