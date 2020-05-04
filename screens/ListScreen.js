@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, SafeAreaView, ScrollView, Image, ActivityIndicator, StyleSheet, TextInput, Dimensions } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView, Image, ActivityIndicator, StyleSheet, TextInput, Dimensions, FlatList } from 'react-native';
 import Constants from "expo-constants";
 import { fetchList, fetchIcon, fetchImage } from '../shared/api/get';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -28,7 +28,7 @@ export default class ListScreen extends Component {
     // Item component
     this.dataItem = ({ data }) => (
       <View style={styles.item}>
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {details: data, background: this.background})}>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {type: this.pageType, details: data, background: this.background})}>
           <Text style={styles.title}>{data.name['name-en']}</Text>
           <Image style={styles.image} source={{ uri: data.icon }} />
         </TouchableOpacity>
@@ -70,7 +70,7 @@ export default class ListScreen extends Component {
   filterData(keywords) {
     // Filter using keywords (if search is greater than length of 2)
     if (String(keywords).length > 2) {
-        let tempDataArray = this.state.filteredData.filter(data => {
+        let tempDataArray = this.state.data.filter(data => {
             let dataName = String(data[1].name['name-en']).toLowerCase();
             return (dataName.indexOf(String(keywords).toLowerCase()) > -1);
         });
@@ -82,19 +82,11 @@ export default class ListScreen extends Component {
   
   render() {
     return (
-      <SafeAreaView>
-        <ScrollView>
-            {/* Loading animation */}
-            {this.state.isLoading && <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#fe8200" />}
-
-            {/* Content */}
-            {!this.state.isLoading && <View style={getContentBodyStyles(this.background)} >
-                {/* Search bar */}
-                <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterData(text)}></TextInput>
-                {this.state.filteredData.map((item, index) => <this.dataItem key={index} data={item[1]} />)}
-            </View>}
-        </ScrollView>
-      </SafeAreaView>
+        <View style={getContentBodyStyles(this.background)}>
+            {this.state.isLoading && <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#cecece" />}
+            {!this.state.isLoading && <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterData(text)}></TextInput>}
+            <FlatList data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
+        </View>
     );
   }
 }
@@ -102,11 +94,7 @@ export default class ListScreen extends Component {
 const getContentBodyStyles = (background) => {
     return {
         backgroundColor: background,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        paddingTop: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
+        padding: 20,
         minHeight: Dimensions.get('window').height - 100
     }
 }

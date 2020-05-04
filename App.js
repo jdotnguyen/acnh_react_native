@@ -57,7 +57,7 @@ export default function App(props) {
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Stack.Navigator>
-            <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles(0)} />
+            <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Fish" component={ListScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Fish Details" component={ListDetailsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Bugs" component={ListScreen} options={getHeaderStyles()} />
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const getHeaderStyles = (opacity) => {
+const getHeaderStyles = () => {
   return {
     headerStyle: {
       backgroundColor: '#fff',
       height: 120,
-      shadowOpacity: opacity,
+      shadowOpacity: 0,
       shadowRadius: 4,
       shadowColor: '#404040',
       shadowOffset: { height: 0, width: 0 },
