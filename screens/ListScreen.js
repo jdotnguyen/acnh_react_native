@@ -4,7 +4,7 @@ import { fetchList, fetchIcon, fetchImage } from '../shared/api/get';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Get enum background colours
-import { AmericanPalette } from '../shared/enum/main';
+import { AmericanPalette, VillagerMoods } from '../shared/enum/main';
 
 export default class ListScreen extends Component {
     _isMounted = false;
@@ -99,8 +99,11 @@ export default class ListScreen extends Component {
                     <Image style={styles.image} source={{ uri: data.icon }} />
                 </View>
                 {this.pageType != 'Villagers' && <View style={styles.priceBody}>
-                    <View style={styles.price}><Text style={styles.priceText}>{data.price}</Text></View>
-                    <View style={styles.priceCj}><Text style={styles.priceText}>{data[this.priceArray[this.pageType]]}</Text></View>
+                    <View style={getSupDataStyles(AmericanPalette.DARK_GREEN)}><Text style={styles.priceText}>{data.price}</Text></View>
+                    <View style={getSupDataStyles(AmericanPalette.DARK_RED, true)}><Text style={styles.priceText}>{data[this.priceArray[this.pageType]]}</Text></View>
+                </View>}
+                {this.pageType == 'Villagers' && <View style={styles.priceBody}>
+                    <View style={getSupDataStyles(VillagerMoods[data.personality])}><Text style={styles.priceText}>{data.personality}</Text></View>
                 </View>}
             </TouchableOpacity>
         </View>
@@ -113,11 +116,26 @@ export default class ListScreen extends Component {
                 {!this.state.isLoading && <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterByKeyword(text)}></TextInput>}
                 {!this.state.isLoading && this.pageType != 'Villagers' && 
                     <View style={styles.legend}>
-                        <TouchableOpacity onPress={() => this.sortByPrice()} style={styles.legendPrice}>
+                        <TouchableOpacity onPress={() => this.sortByPrice()} style={getLegendStyles(AmericanPalette.DARK_GREEN)}>
                             <Text style={styles.priceText}>Regular Price</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sortByPrice()} style={styles.legendPriceCj}>
+                        <TouchableOpacity onPress={() => this.sortByPrice()} style={getLegendStyles(AmericanPalette.DARK_RED, true)}>
                             <Text style={styles.priceText}>Special Price</Text>
+                        </TouchableOpacity>
+                    </View>}
+                {!this.state.isLoading && this.pageType == 'Villagers' && 
+                    <View style={styles.legend}>
+                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_GREEN)}>
+                            <Text style={styles.priceText}>Ideal</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_GREY, true)}>
+                            <Text style={styles.priceText}>Good</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_YELLOW)}>
+                            <Text style={styles.priceText}>Ok</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_RED, true)}>
+                            <Text style={styles.priceText}>Bad</Text>
                         </TouchableOpacity>
                     </View>}
                 <FlatList style={styles.flatList} data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
@@ -126,6 +144,7 @@ export default class ListScreen extends Component {
     }
 }
 
+// Styling for content body
 const getContentBodyStyles = (background) => {
     return {
         backgroundColor: background,
@@ -135,9 +154,34 @@ const getContentBodyStyles = (background) => {
     }
 }
 
+// Styling for legend (below search bar)
+const getLegendStyles = (colour, isSecondary) => {
+    return {
+        marginHorizontal: isSecondary ? 20 : 0, // Optional param styling
+        padding: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 20,
+        backgroundColor: colour
+    }
+}
+
+// Styling for right-aligned data on list items
+const getSupDataStyles = (colour, isSecondary) => {
+    return {
+        marginTop: isSecondary ? 30 : 0, // Optional param styling
+        padding: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 20,
+        backgroundColor: colour,
+        alignItems: 'center'
+    }
+}
+
 const styles = StyleSheet.create({
     flatList: {
-        maxHeight: Dimensions.get('window').height - 270
+        maxHeight: Dimensions.get('window').height - 256
     },
     searchBar: {
         width: '100%',
@@ -153,21 +197,6 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         paddingLeft: 0,
         paddingRight: 0
-    },
-    legendPrice: {
-        padding: 5,
-        paddingLeft: 10,
-        paddingRight: 10,
-        borderRadius: 20,
-        backgroundColor: AmericanPalette.DARK_GREEN
-    },
-    legendPriceCj: {
-        padding: 5,
-        paddingLeft: 10,
-        paddingRight: 10,
-        borderRadius: 20,
-        marginHorizontal: 20,
-        backgroundColor: AmericanPalette.DARK_RED
     },
     item: {
         backgroundColor: AmericanPalette.WHITE,
@@ -198,23 +227,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 40,
         top: 25
-    },
-    price: {
-        padding: 5,
-        paddingLeft: 10,
-        paddingRight: 10,
-        borderRadius: 20,
-        backgroundColor: AmericanPalette.DARK_GREEN,
-        alignItems: 'center'
-    },
-    priceCj: {
-        marginTop: 30,
-        padding: 5,
-        paddingLeft: 10,
-        paddingRight: 10,
-        borderRadius: 20,
-        backgroundColor: AmericanPalette.DARK_RED,
-        alignItems: 'center'
     },
     priceText: {
         fontFamily: 'animal-crossing',

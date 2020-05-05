@@ -31,3 +31,15 @@ export const PageColours = {
     SOW_JONES: '#636e72',
     MUSIC_LIST: '#dddddd'
 }
+
+// Villager moods
+export const VillagerMoods = {
+    Cranky: AmericanPalette.DARK_RED,
+    Jock: AmericanPalette.DARK_GREEN,
+    Peppy: AmericanPalette.DARK_GREEN,
+    Snooty: AmericanPalette.DARK_RED,
+    Normal: AmericanPalette.DARK_GREY,
+    Smug: AmericanPalette.DARK_RED,
+    Lazy: AmericanPalette.DARK_YELLOW,
+    Uchi: AmericanPalette.DARK_RED
+}
