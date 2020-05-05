@@ -7,95 +7,123 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AmericanPalette } from '../shared/enum/main';
 
 export default class ListScreen extends Component {
-  _isMounted = false;
+    _isMounted = false;
+    priceArray = {
+        Fish: 'price-cj',
+        Bugs: 'price-flick'
+    }
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    // Determine page type
-    this.pageType = this.props.route.params.type;
+        // Determine page type
+        this.pageType = this.props.route.params.type;
 
-    // Get background colour
-    this.background = this.props.route.params.background;
+        // Get background colour
+        this.background = this.props.route.params.background;
 
-    this.state = {
-      data: [],
-      filteredData: [],
-      isLoading: true
+        // Filters
+        this.keywords = '';
+        this.sorted = false;
+
+        // All data
+        this.data = [];
+
+        this.state = {
+            filteredData: [],
+            isLoading: true
+        }
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+
+        // Get data list data
+        this.getList();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    // Get list data
+    getList = async () => {
+        if (this._isMounted) {
+        fetchList(this.pageType)
+            .then(response => {
+            const dataResponse = Object.entries(response);
+
+            // // Get image URL
+            dataResponse.forEach((data, index) => {
+                data[1]['icon'] = fetchIcon(this.pageType, data[1].id);
+                data[1]['img'] = fetchImage(this.pageType, data[1].id);
+                data[1]['touched'] = false;
+            });
+
+            // Set backup and viewable data
+            this.data = dataResponse;
+            this.setState({ filteredData: dataResponse, isLoading: false });
+            });
+        }
+    }
+
+    // Search filter
+    filterByKeyword(keywords) {
+        // Filter full list
+        this.keywords = keywords;
+        const fullData = this.data;
+        const filteredData = this.keywords.length > 0 ? fullData.filter(data => (String(data[1].name['name-en']).toLowerCase().indexOf(this.keywords.toLowerCase()) > -1)) : fullData;
+        this.setState({ filteredData: filteredData });
+    }
+
+    // Sort list by price
+    sortByPrice() {
+        // Check if we're sorting by CJ's prices or regular
+        const filteredData = this.state.filteredData;
+        const sortedData = this.sorted ? this.data : filteredData.sort((a, b) => b[1]['price'] - a[1]['price']);
+        this.setState({ filteredData: sortedData });
+        
+        if (this.sorted) {
+            this.filterByKeyword(this.keywords);
+        }
+
+        this.sorted = !this.sorted;
     }
 
     // Item component
-    this.dataItem = ({ data }) => (
+    dataItem = ({ data }) => (
         <View style={styles.item}>
             <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {type: this.pageType, details: data, background: this.background})}>
                 <View>
                     <Text style={styles.title}>{data.name['name-en']}</Text>
                     <Image style={styles.image} source={{ uri: data.icon }} />
                 </View>
-                <View style={styles.priceBody}>
+                {this.pageType != 'Villagers' && <View style={styles.priceBody}>
                     <View style={styles.price}><Text style={styles.priceText}>{data.price}</Text></View>
-                    <View style={styles.priceCj}><Text style={styles.priceText}>{data['price-cj']}</Text></View>
-                </View>
+                    <View style={styles.priceCj}><Text style={styles.priceText}>{data[this.priceArray[this.pageType]]}</Text></View>
+                </View>}
             </TouchableOpacity>
         </View>
     );
-  }
-
-  componentDidMount() {
-    this._isMounted = true;
-
-    // Get data list data
-    this.getList();
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  // Get list data
-  getList = async () => {
-    if (this._isMounted) {
-      fetchList(this.pageType)
-        .then(response => {
-          const dataResponse = Object.entries(response);
-
-          // // Get image URL
-          dataResponse.forEach((data, index) => {
-            data[1]['icon'] = fetchIcon(this.pageType, data[1].id);
-            data[1]['img'] = fetchImage(this.pageType, data[1].id);
-            data[1]['touched'] = false;
-          });
-
-          this.setState({ data: dataResponse, filteredData: dataResponse, isLoading: false });
-        });
+    
+    render() {
+        return (
+            <View style={getContentBodyStyles(this.background)}>
+                {this.state.isLoading && <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#cecece" />}
+                {!this.state.isLoading && <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterByKeyword(text)}></TextInput>}
+                {!this.state.isLoading && this.pageType != 'Villagers' && 
+                    <View style={styles.legend}>
+                        <TouchableOpacity onPress={() => this.sortByPrice()} style={styles.legendPrice}>
+                            <Text style={styles.priceText}>Regular Price</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.sortByPrice()} style={styles.legendPriceCj}>
+                            <Text style={styles.priceText}>Special Price</Text>
+                        </TouchableOpacity>
+                    </View>}
+                <FlatList style={styles.flatList} data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
+            </View>
+        );
     }
-  }
-
-  // Search filter
-  filterData(keywords) {
-    // Filter using keywords (if search is greater than length of 2)
-    if (String(keywords).length > 2) {
-        let tempDataArray = this.state.data.filter(data => {
-            let dataName = String(data[1].name['name-en']).toLowerCase();
-            return (dataName.indexOf(String(keywords).toLowerCase()) > -1);
-        });
-        this.setState({ filteredData: tempDataArray });
-    } else { // Reset to all results
-        this.setState({ filteredData: this.state.data });
-    }
-  }
-  
-  render() {
-    return (
-        <View style={getContentBodyStyles(this.background)}>
-            {this.state.isLoading && <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#cecece" />}
-            
-            {!this.state.isLoading && <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterData(text)}></TextInput>}
-            {!this.state.isLoading && <View style={styles.legend}><View style={styles.legendPrice}><Text style={styles.priceText}>Regular Price</Text></View><View style={styles.legendPriceCj}><Text style={styles.priceText}>Special Price</Text></View></View>}
-            <FlatList data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
-        </View>
-    );
-  }
 }
 
 const getContentBodyStyles = (background) => {
@@ -108,6 +136,9 @@ const getContentBodyStyles = (background) => {
 }
 
 const styles = StyleSheet.create({
+    flatList: {
+        maxHeight: Dimensions.get('window').height - 270
+    },
     searchBar: {
         width: '100%',
         marginVertical: 20,

@@ -9,13 +9,13 @@ export function fetchList(pageType) {
         .catch(error => console.warn(error));
 }
 
-// Get icon with type param
+// Get icon with type and ID param
 export function fetchIcon(pageType, id) {
     const type = String(pageType).toLowerCase();
     return 'http://acnhapi.com/icons/' + type + '/' + id;
 }
 
-// Get icon with type param
+// Get image with type and ID param
 export function fetchImage(pageType, id) {
     const type = String(pageType).toLowerCase();
     return 'http://acnhapi.com/images/' + type + '/' + id;

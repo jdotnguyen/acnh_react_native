@@ -1,3 +1,4 @@
+// Colours
 export const AmericanPalette = {
     LIGHT_GREEN: '#55efc4',
     DARK_GREEN: '#00b894',
