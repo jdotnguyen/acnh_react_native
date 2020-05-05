@@ -25,6 +25,7 @@ export default class ListScreen extends Component {
         // Filters
         this.keywords = '';
         this.sorted = false;
+        this.mood = [];
 
         // All data
         this.data = [];
@@ -78,9 +79,9 @@ export default class ListScreen extends Component {
 
     // Sort list by price
     sortByPrice() {
-        // Check if we're sorting by CJ's prices or regular
+        // Toggle sort between ASC/DESC while keeping search results filtered
         const filteredData = this.state.filteredData;
-        const sortedData = this.sorted ? this.data : filteredData.sort((a, b) => b[1]['price'] - a[1]['price']);
+        const sortedData = this.sorted ? filteredData.sort((a, b) => a[1]['price'] - b[1]['price']) : filteredData.sort((a, b) => b[1]['price'] - a[1]['price']);
         this.setState({ filteredData: sortedData });
         
         if (this.sorted) {
@@ -90,20 +91,38 @@ export default class ListScreen extends Component {
         this.sorted = !this.sorted;
     }
 
+    // Sort list by villager mood
+    sortByMood(moodArray) {
+        // Toggle between filtering by mood or showing all data
+        const filteredData = this.state.filteredData;
+        const sortedData = (this.sorted && (JSON.stringify(this.mood) == JSON.stringify(moodArray))) ? this.data : filteredData.filter(villager => moodArray.includes(villager[1]['personality']));
+        this.setState({ filteredData : sortedData });
+
+        if (this.sorted) {
+            this.filterByKeyword(this.keywords);
+        }
+
+        this.mood = moodArray;
+        this.sorted = !this.sorted;
+    }
+
     // Item component
     dataItem = ({ data }) => (
         <View style={styles.item}>
-            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate(this.pageType + ' Details', {type: this.pageType, details: data, background: this.background})}>
+            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Details', {type: this.pageType, details: data, background: this.background})}>
+                {/* Name and icon */}
                 <View>
                     <Text style={styles.title}>{data.name['name-en']}</Text>
                     <Image style={styles.image} source={{ uri: data.icon }} />
                 </View>
+
+                {/* Supplementary data (right aligned) */}
                 {this.pageType != 'Villagers' && <View style={styles.priceBody}>
                     <View style={getSupDataStyles(AmericanPalette.DARK_GREEN)}><Text style={styles.priceText}>{data.price}</Text></View>
                     <View style={getSupDataStyles(AmericanPalette.DARK_RED, true)}><Text style={styles.priceText}>{data[this.priceArray[this.pageType]]}</Text></View>
                 </View>}
                 {this.pageType == 'Villagers' && <View style={styles.priceBody}>
-                    <View style={getSupDataStyles(VillagerMoods[data.personality])}><Text style={styles.priceText}>{data.personality}</Text></View>
+                    <View style={getSupDataStyles(VillagerMoods[data.personality], true)}><Text style={styles.priceText}>{data.personality}</Text></View>
                 </View>}
             </TouchableOpacity>
         </View>
@@ -112,8 +131,13 @@ export default class ListScreen extends Component {
     render() {
         return (
             <View style={getContentBodyStyles(this.background)}>
+                {/* Loading indicator */}
                 {this.state.isLoading && <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#cecece" />}
+
+                {/* Search bar */}
                 {!this.state.isLoading && <TextInput style={styles.searchBar} placeholder="Search..." returnKeyType="done" onChangeText={text => this.filterByKeyword(text)}></TextInput>}
+
+                {/* Legend */}
                 {!this.state.isLoading && this.pageType != 'Villagers' && 
                     <View style={styles.legend}>
                         <TouchableOpacity onPress={() => this.sortByPrice()} style={getLegendStyles(AmericanPalette.DARK_GREEN)}>
@@ -125,20 +149,25 @@ export default class ListScreen extends Component {
                     </View>}
                 {!this.state.isLoading && this.pageType == 'Villagers' && 
                     <View style={styles.legend}>
-                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_GREEN)}>
+                        <TouchableOpacity onPress={() => this.sortByMood(['Jock', 'Peppy'])} style={getLegendStyles(AmericanPalette.DARK_GREEN)}>
                             <Text style={styles.priceText}>Ideal</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_GREY, true)}>
+                        <TouchableOpacity onPress={() => this.sortByMood(['Normal'])} style={getLegendStyles(AmericanPalette.DARK_GREY, true)}>
                             <Text style={styles.priceText}>Good</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_YELLOW)}>
+                        <TouchableOpacity onPress={() => this.sortByMood(['Lazy'])} style={getLegendStyles(AmericanPalette.DARK_YELLOW)}>
                             <Text style={styles.priceText}>Ok</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sortByMood()} style={getLegendStyles(AmericanPalette.DARK_RED, true)}>
+                        <TouchableOpacity onPress={() => this.sortByMood(['Cranky', 'Snooty', 'Smug', 'Uchi'])} style={getLegendStyles(AmericanPalette.DARK_RED, true)}>
                             <Text style={styles.priceText}>Bad</Text>
                         </TouchableOpacity>
                     </View>}
-                <FlatList style={styles.flatList} data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
+
+                {/* No results */}
+                {!this.state.isLoading && this.state.filteredData.length == 0 && <View style={styles.noResultsBody}><Text style={styles.noResultsText}>No results</Text></View>}
+
+                {/* Data list */}
+                <FlatList showsVerticalScrollIndicator={false} style={styles.flatList} data={this.state.filteredData} renderItem={({ item }) => <this.dataItem data={item[1]} />} keyExtractor={(item, key) => item + key} />
             </View>
         );
     }
@@ -149,8 +178,8 @@ const getContentBodyStyles = (background) => {
     return {
         backgroundColor: background,
         padding: 20,
-        paddingTop:0,
-        minHeight: Dimensions.get('window').height - 100
+        paddingTop: 0,
+        minHeight: Dimensions.get('window').height - 100, // Min height if there's no results
     }
 }
 
@@ -169,7 +198,7 @@ const getLegendStyles = (colour, isSecondary) => {
 // Styling for right-aligned data on list items
 const getSupDataStyles = (colour, isSecondary) => {
     return {
-        marginTop: isSecondary ? 30 : 0, // Optional param styling
+        marginTop: isSecondary ? 25 : 0, // Optional param styling
         padding: 5,
         paddingLeft: 10,
         paddingRight: 10,
@@ -181,13 +210,13 @@ const getSupDataStyles = (colour, isSecondary) => {
 
 const styles = StyleSheet.create({
     flatList: {
-        maxHeight: Dimensions.get('window').height - 256
+        maxHeight: Dimensions.get('window').height - 276,
     },
     searchBar: {
         width: '100%',
         marginVertical: 20,
         padding: 20,
-        fontSize: 16,
+        fontSize: 20,
         borderRadius: 30,
         fontFamily: 'animal-crossing',
         backgroundColor: AmericanPalette.WHITE
@@ -197,6 +226,15 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         paddingLeft: 0,
         paddingRight: 0
+    },
+    noResultsBody: {
+        alignItems: 'center'
+    },
+    noResultsText: {
+        fontSize: 28,
+        fontFamily: 'animal-crossing',
+        marginVertical: 30,
+        color: '#ffffff'
     },
     item: {
         backgroundColor: AmericanPalette.WHITE,
@@ -230,7 +268,7 @@ const styles = StyleSheet.create({
     },
     priceText: {
         fontFamily: 'animal-crossing',
-        fontSize: 14,
+        fontSize: 18,
         color: '#ffffff'
     }
 });

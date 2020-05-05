@@ -59,11 +59,9 @@ export default function App(props) {
           <Stack.Navigator>
             <Stack.Screen name="Nook Phone" component={HomeScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Fish" component={ListScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Fish Details" component={ListDetailsScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Details" component={ListDetailsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Bugs" component={ListScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Bugs Details" component={ListDetailsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Villagers" component={ListScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Villagers Details" component={ListDetailsScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Music" component={MusicScreen} options={getHeaderStyles()} />
           </Stack.Navigator>
         </NavigationContainer>
