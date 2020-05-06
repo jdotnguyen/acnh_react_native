@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 // Get enum background colours
 import { AmericanPalette } from '../shared/enum/main';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class MusicPlayerScreen extends Component {
     _isMounted = false;
@@ -38,13 +39,19 @@ export default class MusicPlayerScreen extends Component {
                             </View>
                             <View style={styles.playControlsRowContainer}>
                                 <View style={styles.playControlContainer}>
-                                    <Ionicons name="ios-skip-backward" size={52} color={AmericanPalette.DARK_PINK} />
+                                    <TouchableOpacity>
+                                        <Ionicons name="ios-skip-backward" size={52} color={AmericanPalette.DARK_PINK} />
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.playControlContainer}>
-                                    <Ionicons name="ios-play" size={52} color={AmericanPalette.DARK_PINK} />
+                                    <TouchableOpacity>
+                                        <Ionicons name="ios-play" size={52} color={AmericanPalette.DARK_PINK} />
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.playControlContainer}>
-                                    <Ionicons name="ios-skip-forward" size={52} color={AmericanPalette.DARK_PINK} />
+                                    <TouchableOpacity>
+                                        <Ionicons name="ios-skip-forward" size={52} color={AmericanPalette.DARK_PINK} />
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
