@@ -87,13 +87,38 @@ export default class ListDetailsScreen extends Component {
                         <View style={styles.headerContainer}>
                             <Text style={styles.header}>{this.data.name['name-en']}</Text>
                             <Image style={styles.image} source={{ uri: this.data.icon }} />
+
+                            {/* Catchphrase */}
+                            <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
+                            <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
+
+                            {/* Location */}
+                            <Text style={styles.detailsInfoHeader}>Location:</Text>
+                            <Text style={styles.detailsInfo}>{this.data['availability']['location']}</Text>
                         </View>
 
                         {/* Information */}
                         <View style={styles.detailsInfoContainer}>
+                            {/* Prices */}
                             <Text style={styles.detailsInfoHeader}>Prices:</Text>
-                            <Text style={styles.detailsInfo}>{this.data.price} Bells</Text>
-                            <Text style={styles.detailsInfo}>{this.data['price-flick']} Bells (CJ)</Text>
+                            <View style={getDetailsInfo(AmericanPalette.DARK_GREEN)}><Text style={styles.detailsInfoWhite}>{this.data.price}</Text></View>
+                            <View style={getDetailsInfo(AmericanPalette.DARK_RED, true)}><Text style={styles.detailsInfoWhite}>{this.data['price-flick']} (Flick)</Text></View>
+
+                            {/* Availability months */}
+                            <Text style={styles.detailsInfoHeader}>Months:</Text>
+                            <Text style={styles.detailsInfo}>{this.data['availability']['month-northern'] ? this.data['availability']['month-northern'] : 'All'}</Text>
+
+                            {/* Availability all-day */}
+                            <Text style={styles.detailsInfoHeader}>Time:</Text>
+                            <Text style={styles.detailsInfo}>{this.data['availability']['isAllDay'] ? 'All-day' : this.data['availability']['time']}</Text>
+
+                            {/* Shadow Size */}
+                            <Text style={styles.detailsInfoHeader}>Shadow Size:</Text>
+                            <Text style={styles.detailsInfo}>{this.data['shadow']}</Text>
+
+                            {/* Rarity */}
+                            <Text style={styles.detailsInfoHeader}>Rarity:</Text>
+                            <Text style={styles.detailsInfo}>{this.data['availability']['rarity']}</Text>
                         </View>
                     </View>
                 </ScrollView>
