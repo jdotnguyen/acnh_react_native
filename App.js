@@ -12,7 +12,8 @@ import useLinking from './navigation/useLinking';
 import HomeScreen from './screens/HomeScreen';
 import ListScreen from './screens/ListScreen';
 import ListDetailsScreen from './screens/ListDetailsScreen';
-import MusicScreen from './screens/MusicScreen';
+import MusicListScreen from './screens/MusicScreen';
+import MusicPlayerScreen from './screens/MusicPlayerScreen';
 
 const Stack = createStackNavigator();
 
@@ -63,7 +64,8 @@ export default function App(props) {
             <Stack.Screen name="Villagers" component={ListScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Fossils" component={ListScreen} options={getHeaderStyles()} />
             <Stack.Screen name="Details" component={ListDetailsScreen} options={getHeaderStyles()} />
-            <Stack.Screen name="Music" component={MusicScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Music" component={MusicListScreen} options={getHeaderStyles()} />
+            <Stack.Screen name="Play" component={MusicPlayerScreen} options={getHeaderStyles()} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

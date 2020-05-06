@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, Image, ActivityIndicator, StyleSheet, TextInput, Dimensions, FlatList } from 'react-native';
-import { fetchList, fetchIcon, fetchImage } from '../shared/api/get';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+// Import API services
+import { fetchList, fetchIcon, fetchImage } from '../shared/api/get';
 
 // Get enum background colours
 import { AmericanPalette, VillagerMoods } from '../shared/enum/main';
