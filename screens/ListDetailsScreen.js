@@ -34,42 +34,44 @@ export default class ListDetailsScreen extends Component {
             <SafeAreaView>
                 <ScrollView style={getContentBodyStyles(this.background)}>
                     <View style={styles.innerContent}>
-                        {/* Name and icon */}
-                        <View style={styles.headerContainer}>
-                            <Text style={styles.header}>{this.data.name['name-en']}</Text>
-                            <Image style={styles.image} source={{ uri: this.data.icon }} />
+                        <View style={styles.innertContentHalfRow}>
+                            {/* Name and icon */}
+                            <View style={styles.headerContainer}>
+                                <Text style={styles.header}>{this.data.name['name-en']}</Text>
+                                <Image style={styles.image} source={{ uri: this.data.icon }} />
 
-                            {/* Catchphrase */}
-                            <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
-                            <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
+                                {/* Catchphrase */}
+                                <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
+                                <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
 
-                            {/* Location */}
-                            <Text style={styles.detailsInfoHeader}>Location:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['location']}</Text>
-                        </View>
+                                {/* Location */}
+                                <Text style={styles.detailsInfoHeader}>Location:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['location']}</Text>
+                            </View>
 
-                        {/* Information */}
-                        <View style={styles.detailsInfoContainer}>
-                            {/* Prices */}
-                            <Text style={styles.detailsInfoHeader}>Prices:</Text>
-                            <View style={getDetailsInfo(AmericanPalette.DARK_GREEN)}><Text style={styles.detailsInfoWhite}>{this.data.price}</Text></View>
-                            <View style={getDetailsInfo(AmericanPalette.DARK_RED, true)}><Text style={styles.detailsInfoWhite}>{this.data['price-cj']} (CJ)</Text></View>
+                            {/* Information */}
+                            <View style={styles.detailsInfoContainer}>
+                                {/* Prices */}
+                                <Text style={styles.detailsInfoHeader}>Prices:</Text>
+                                <View style={getDetailsInfo(AmericanPalette.DARK_GREEN)}><Text style={styles.detailsInfoWhite}>{this.data.price}</Text></View>
+                                <View style={getDetailsInfo(AmericanPalette.DARK_RED, true)}><Text style={styles.detailsInfoWhite}>{this.data['price-cj']} (CJ)</Text></View>
 
-                            {/* Availability months */}
-                            <Text style={styles.detailsInfoHeader}>Months:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['month-northern'] ? this.data['availability']['month-northern'] : 'All'}</Text>
+                                {/* Availability months */}
+                                <Text style={styles.detailsInfoHeader}>Months:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['month-northern'] ? this.data['availability']['month-northern'] : 'All'}</Text>
 
-                            {/* Availability all-day */}
-                            <Text style={styles.detailsInfoHeader}>Time:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['isAllDay'] ? 'All-day' : this.data['availability']['time']}</Text>
+                                {/* Availability all-day */}
+                                <Text style={styles.detailsInfoHeader}>Time:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['isAllDay'] ? 'All-day' : this.data['availability']['time']}</Text>
 
-                            {/* Shadow Size */}
-                            <Text style={styles.detailsInfoHeader}>Shadow Size:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['shadow']}</Text>
+                                {/* Shadow Size */}
+                                <Text style={styles.detailsInfoHeader}>Shadow Size:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['shadow']}</Text>
 
-                            {/* Rarity */}
-                            <Text style={styles.detailsInfoHeader}>Rarity:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['rarity']}</Text>
+                                {/* Rarity */}
+                                <Text style={styles.detailsInfoHeader}>Rarity:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['rarity']}</Text>
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -83,42 +85,44 @@ export default class ListDetailsScreen extends Component {
             <SafeAreaView>
                 <ScrollView style={getContentBodyStyles(this.background)}>
                     <View style={styles.innerContent}>
-                        {/* Name and icon */}
-                        <View style={styles.headerContainer}>
-                            <Text style={styles.header}>{this.data.name['name-en']}</Text>
-                            <Image style={styles.image} source={{ uri: this.data.icon }} />
+                        <View style={styles.innertContentHalfRow}>
+                            {/* Name and icon */}
+                            <View style={styles.headerContainer}>
+                                <Text style={styles.header}>{this.data.name['name-en']}</Text>
+                                <Image style={styles.image} source={{ uri: this.data.icon }} />
 
-                            {/* Catchphrase */}
-                            <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
-                            <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
+                                {/* Catchphrase */}
+                                <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
+                                <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
 
-                            {/* Location */}
-                            <Text style={styles.detailsInfoHeader}>Location:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['location']}</Text>
-                        </View>
+                                {/* Location */}
+                                <Text style={styles.detailsInfoHeader}>Location:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['location']}</Text>
+                            </View>
 
-                        {/* Information */}
-                        <View style={styles.detailsInfoContainer}>
-                            {/* Prices */}
-                            <Text style={styles.detailsInfoHeader}>Prices:</Text>
-                            <View style={getDetailsInfo(AmericanPalette.DARK_GREEN)}><Text style={styles.detailsInfoWhite}>{this.data.price}</Text></View>
-                            <View style={getDetailsInfo(AmericanPalette.DARK_RED, true)}><Text style={styles.detailsInfoWhite}>{this.data['price-flick']} (Flick)</Text></View>
+                            {/* Information */}
+                            <View style={styles.detailsInfoContainer}>
+                                {/* Prices */}
+                                <Text style={styles.detailsInfoHeader}>Prices:</Text>
+                                <View style={getDetailsInfo(AmericanPalette.DARK_GREEN)}><Text style={styles.detailsInfoWhite}>{this.data.price}</Text></View>
+                                <View style={getDetailsInfo(AmericanPalette.DARK_RED, true)}><Text style={styles.detailsInfoWhite}>{this.data['price-flick']} (Flick)</Text></View>
 
-                            {/* Availability months */}
-                            <Text style={styles.detailsInfoHeader}>Months:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['month-northern'] ? this.data['availability']['month-northern'] : 'All'}</Text>
+                                {/* Availability months */}
+                                <Text style={styles.detailsInfoHeader}>Months:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['month-northern'] ? this.data['availability']['month-northern'] : 'All'}</Text>
 
-                            {/* Availability all-day */}
-                            <Text style={styles.detailsInfoHeader}>Time:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['isAllDay'] ? 'All-day' : this.data['availability']['time']}</Text>
+                                {/* Availability all-day */}
+                                <Text style={styles.detailsInfoHeader}>Time:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['isAllDay'] ? 'All-day' : this.data['availability']['time']}</Text>
 
-                            {/* Shadow Size */}
-                            <Text style={styles.detailsInfoHeader}>Shadow Size:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['shadow']}</Text>
+                                {/* Shadow Size */}
+                                <Text style={styles.detailsInfoHeader}>Shadow Size:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['shadow']}</Text>
 
-                            {/* Rarity */}
-                            <Text style={styles.detailsInfoHeader}>Rarity:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['availability']['rarity']}</Text>
+                                {/* Rarity */}
+                                <Text style={styles.detailsInfoHeader}>Rarity:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['availability']['rarity']}</Text>
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -132,33 +136,66 @@ export default class ListDetailsScreen extends Component {
             <SafeAreaView>
                 <ScrollView style={getContentBodyStyles(this.background)}>
                     <View style={styles.innerContent}>
-                        {/* Name and icon */}
-                        <View style={styles.headerContainer}>
-                            <Text style={styles.header}>{this.data.name['name-en']}</Text>
-                            <Image style={styles.image} source={{ uri: this.data.icon }} />
+                        <View style={styles.innertContentHalfRow}>    
+                            {/* Name and icon */}
+                            <View style={styles.headerContainer}>
+                                <Text style={styles.header}>{this.data.name['name-en']}</Text>
+                                <Image style={styles.image} source={{ uri: this.data.icon }} />
 
-                            {/* Catchphrase */}
-                            <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
-                            <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
+                                {/* Catchphrase */}
+                                <Text style={styles.detailsInfoHeader}>Catchphrase:</Text>
+                                <Text style={styles.detailsInfo}>"{this.data['catch-phrase']}"</Text>
+                            </View>
+
+                            {/* Information */}
+                            <View style={styles.detailsInfoContainer}>
+                                {/* Personality */}
+                                <Text style={styles.detailsInfoHeader}>Personality:</Text>
+                                <View style={getDetailsInfo(VillagerMoods[this.data.personality], true)}><Text style={styles.detailsInfoWhite}>{this.data.personality}</Text></View>
+
+                                {/* Birthday */}
+                                <Text style={styles.detailsInfoHeader}>Birthday:</Text>
+                                <Text style={styles.detailsInfo}>{this.data['birthday-string']}</Text>
+
+                                {/* Species */}
+                                <Text style={styles.detailsInfoHeader}>Species:</Text>
+                                <Text style={styles.detailsInfo}>{this.data.species}</Text>
+
+                                {/* Gender */}
+                                <Text style={styles.detailsInfoHeader}>Gender:</Text>
+                                <Text style={styles.detailsInfo}>{this.data.gender}</Text>
+                            </View>
                         </View>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        )
+    }
 
-                        {/* Information */}
-                        <View style={styles.detailsInfoContainer}>
-                            {/* Personality */}
-                            <Text style={styles.detailsInfoHeader}>Personality:</Text>
-                            <View style={getDetailsInfo(VillagerMoods[this.data.personality], true)}><Text style={styles.detailsInfoWhite}>{this.data.personality}</Text></View>
+    // Fossil details
+    fossilDetails() {
+        return (
+            <SafeAreaView>
+                <ScrollView style={getContentBodyStyles(this.background)}>
+                    <View style={styles.innerContent}>
+                        <View style={styles.innertContentHalfRow}>
+                            {/* Name and icon */}
+                            <View style={styles.headerContainer}>
+                                <Text style={styles.header}>{this.data.name['name-en']}</Text>
+                                <Image style={styles.image} source={{ uri: this.data.img }} />
+                            </View>
 
-                            {/* Birthday */}
-                            <Text style={styles.detailsInfoHeader}>Birthday:</Text>
-                            <Text style={styles.detailsInfo}>{this.data['birthday-string']}</Text>
-
-                            {/* Species */}
-                            <Text style={styles.detailsInfoHeader}>Species:</Text>
-                            <Text style={styles.detailsInfo}>{this.data.species}</Text>
-
-                            {/* Gender */}
-                            <Text style={styles.detailsInfoHeader}>Gender:</Text>
-                            <Text style={styles.detailsInfo}>{this.data.gender}</Text>
+                            {/* Information */}
+                            <View style={styles.detailsInfoContainer}>
+                                {/* Prices */}
+                                <Text style={styles.detailsInfoHeader}>Price:</Text>
+                                <View style={getDetailsInfo(AmericanPalette.DARK_GREEN, true)}><Text style={styles.detailsInfoWhite}>{this.data.price}</Text></View>
+                            </View>
+                        </View>
+                        <View style={styles.innertContentFullRow}>
+                            {/* Catchphrase */}
+                            <Text style={styles.detailsInfoHeader}>Museum phrase:</Text>
+                            <Text style={styles.detailsInfo}>"{this.data['museum-phrase']}"</Text>
                         </View>
                     </View>
                 </ScrollView>
@@ -175,6 +212,8 @@ export default class ListDetailsScreen extends Component {
                 return this.bugDetails();
             case 'Villagers':
                 return this.villagerDetails();
+            case 'Fossils':
+                return this.fossilDetails();
         }
     }
 }
@@ -207,8 +246,14 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
         marginVertical: 20,
         marginHorizontal: 20,
-        borderRadius: 50,
+        borderRadius: 50
+    },
+    innertContentHalfRow: {
+        marginHorizontal: 10,
         flexDirection: 'row'
+    },
+    innertContentFullRow: {
+        marginHorizontal: 30,
     },
     headerContainer: {
         marginHorizontal: 20,

@@ -57,8 +57,11 @@ export default class ListScreen extends Component {
             // // Get image URL
             dataResponse.forEach((data, index) => {
                 data[1]['icon'] = fetchIcon(this.pageType, data[1].id);
-                data[1]['img'] = fetchImage(this.pageType, data[1].id);
-                data[1]['touched'] = false;
+
+                // Get fossil image as they don't have icons
+                if (this.pageType == 'Fossils') {
+                    data[1]['img'] = fetchImage(this.pageType, data[0]);
+                }
             });
 
             // Set backup and viewable data
@@ -113,13 +116,14 @@ export default class ListScreen extends Component {
                 {/* Name and icon */}
                 <View>
                     <Text style={styles.title}>{data.name['name-en']}</Text>
-                    <Image style={styles.image} source={{ uri: data.icon }} />
+                    {this.pageType != 'Fossils' && <Image style={styles.image} source={{ uri: data.icon }} />}
+                    {this.pageType == 'Fossils' && <Image style={styles.image} source={{ uri: data.img }} />}
                 </View>
 
                 {/* Supplementary data (right aligned) */}
                 {this.pageType != 'Villagers' && <View style={styles.priceBody}>
                     <View style={getSupDataStyles(AmericanPalette.DARK_GREEN)}><Text style={styles.priceText}>{data.price}</Text></View>
-                    <View style={getSupDataStyles(AmericanPalette.DARK_RED, true)}><Text style={styles.priceText}>{data[this.priceArray[this.pageType]]}</Text></View>
+                    {this.pageType != 'Fossils' && <View style={getSupDataStyles(AmericanPalette.DARK_RED, true)}><Text style={styles.priceText}>{data[this.priceArray[this.pageType]]}</Text></View>}
                 </View>}
                 {this.pageType == 'Villagers' && <View style={styles.priceBody}>
                     <View style={getSupDataStyles(VillagerMoods[data.personality], true)}><Text style={styles.priceText}>{data.personality}</Text></View>
@@ -143,9 +147,9 @@ export default class ListScreen extends Component {
                         <TouchableOpacity onPress={() => this.sortByPrice()} style={getLegendStyles(AmericanPalette.DARK_GREEN)}>
                             <Text style={styles.priceText}>Regular Price</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sortByPrice()} style={getLegendStyles(AmericanPalette.DARK_RED, true)}>
+                        {this.pageType != 'Fossils' && <TouchableOpacity onPress={() => this.sortByPrice()} style={getLegendStyles(AmericanPalette.DARK_RED, true)}>
                             <Text style={styles.priceText}>Special Price</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                     </View>}
                 {!this.state.isLoading && this.pageType == 'Villagers' && 
                     <View style={styles.legend}>
