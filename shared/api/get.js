@@ -20,3 +20,8 @@ export function fetchImage(pageType, id) {
     const type = String(pageType).toLowerCase();
     return 'http://acnhapi.com/images/' + type + '/' + id;
 }
+
+// Get songs in MP3 format
+export function fetchSongMP3(id) {
+    return 'http://acnhapi.com/music/' + id;
+}

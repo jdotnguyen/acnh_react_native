@@ -47,7 +47,8 @@ export default class HomeScreen extends Component {
             icon: 'dollar-sign',
             color: '#55efc4',
             backgroundColor: PageColours.SOW_JONES,
-            screenDestination: 'Villagers'
+            screenDestination: 'Villagers',
+            disabled: true
           },
           {
             title: 'Music',
@@ -63,7 +64,7 @@ export default class HomeScreen extends Component {
     this.homeItem = ({ item }) => (
         <View style={{ width: '33%', alignItems: 'center' }}>
             <View style={this.getHomeIconstyles(item)}>
-                <TouchableOpacity style={styles.appIcon} onPress={() => {{this.props.navigation.navigate(item.screenDestination, {type: item.title, background: item.backgroundColor})}}}>
+                <TouchableOpacity disabled={item.disabled} style={styles.appIcon} onPress={() => {{this.props.navigation.navigate(item.screenDestination, {type: item.title, background: item.backgroundColor})}}}>
                     <FontAwesome5
                       name={item.icon}
                       size={50}
