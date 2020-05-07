@@ -47,8 +47,7 @@ export default class HomeScreen extends Component {
             icon: 'dollar-sign',
             color: '#55efc4',
             backgroundColor: PageColours.SOW_JONES,
-            screenDestination: 'Villagers',
-            disabled: true
+            screenDestination: 'Sow Jones'
           },
           {
             title: 'Music',
